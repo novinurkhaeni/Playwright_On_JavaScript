@@ -1,0 +1,37 @@
+### WHY PLYWRIGHT? ###
+1. Reliable end to end testing
+Kemampuan auto-wait playwright memastikan pengujian end to end yang andal dan stabil untuk aplikasi web modern.
+Bahkan dalam menghadapi interaksi user yang dinamis dan kompleks.
+
+Misalnya selenium tidak memiliki kemampuan untuk menunggu otomatis, anda harus menampahkan kode untuk menunggu
+hingga object muncul. Namun dalam playwright, ini sudah include didalamnya dan akan otomatis menunggu hingga objeck tampil.
+https://playwright.dev/docs/actionability
+
+2. Cross browser compability
+Playwright mendukung semua browser utama: chromium based (chrome dan edge), firefox, safari (WebKit), dan Opera.
+
+3. Multiplatform support
+Playwright bekerja dengan lancar di windows, macOS, linux, dan juga mobile view untuk chrome di android dan safari di iOS.
+
+4. Multilingual flexibility
+Playwright provides bebagai bahasa pemrograman: JavaScript, TypeScript, Java, Python, C# (.Net).
+
+### PLAYWRIGHT'S ADVANCED FEATURED ###
+
+1. Tracking dan Debugging
+Manfaatkan kemampuan pelacakan dan penelusuran kesalahan bawaan Playwright, 
+termasuk tangkapan layar otomatis, perekaman video pengujian, dan pencatatan komprehensif, 
+untuk menyederhanakan proses mengidentifikasi dan menyelesaikan masalah dalam rangkaian pengujian Anda.
+
+2.Intersepsi Jaringan
+Manfaatkan pustaka pengujian API Playwright untuk mencegat dan memvalidasi panggilan jaringan dalam aplikasi web Anda, 
+yang memungkinkan Anda menguji skenario kasus khusus dan memastikan ketahanan interaksi jaringan aplikasi Anda.
+
+3. Manajemen Konteks Browser
+Jelajahi fitur Playwright's browser context, yang memungkinkan Anda menyimpan dan mentransfer status browser di seluruh rangkaian pengujian Anda,
+meningkatkan efisiensi pengujian dan mengurangi overhead dalam menyiapkan status browser yang sama untuk setiap kasus pengujian.
+Contoh cookies login.
+
+4. Codegen Tools
+Temukan alat codegen Playwright, yang dapat menghasilkan kode pengujian dengan merekam tindakan Anda, 
+menghemat waktu dan tenaga Anda dalam membuat kasus pengujian awal dan menyediakan titik awal untuk penyesuaian lebih lanjut.
