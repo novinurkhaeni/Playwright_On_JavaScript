@@ -3,7 +3,7 @@
 Kemampuan auto-wait playwright memastikan pengujian end to end yang andal dan stabil untuk aplikasi web modern.
 Bahkan dalam menghadapi interaksi user yang dinamis dan kompleks.
 
-Misalnya selenium tidak memiliki kemampuan untuk menunggu otomatis, anda harus menampahkan kode untuk menunggu
+Misalnya selenium tidak memiliki kemampuan untuk menunggu otomatis, anda harus menambahkan kode untuk menunggu
 hingga object muncul. Namun dalam playwright, ini sudah include didalamnya dan akan otomatis menunggu hingga objeck tampil.
 https://playwright.dev/docs/actionability
 
