@@ -81,11 +81,11 @@ test('@Web Browser Context-Validating Error login', async ({ browser }) => {
     const allTitles = await cardTitles.allTextContents();
    
     console.log(allTitles); 
-})
+});
 
 //tanpa menyimpan session, cookies, dan plugin secara terpisah
 //jika hanya menjalankan test case ini, maka gunakan tets.only
-test.only('@Web UI Controls', async ({ page }) => {
+test('@Web UI Controls', async ({ page }) => {
 
     // Membuka atau mengarahkan browser ke alamat URL tertentu
     // await menunggu sampai halaman selesai dimuat
@@ -120,4 +120,44 @@ test.only('@Web UI Controls', async ({ page }) => {
     await page.locator("#terms").uncheck(); //uncheck checkbox
     expect( await page.locator("#terms").isChecked()).toBeFalsy(); //mengecek status harus false, kebalikannya toBeTruethy
     await expect(documentLink).toHaveAttribute("class","blinkingText");
-})
+});
+
+test.only('@Child Window Hadl', async ({browser}) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    const userName = page.locator("#username");
+    const documentLink = page.locator("[href*='documents-request']");
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+
+    
+    // Promise.all digunakan untuk menjalankan dua proses secara bersamaan
+    // 1. Menunggu event halaman baru terbuka
+    // 2. Klik link yang membuka halaman baru
+    const [newPage] = await Promise.all([
+        context.waitForEvent('page'), //listen for any new page pending, rejected, fulfilled
+        documentLink.click(), // klik link yang memicu tab baru
+    ])//new page is openned
+
+    // Mengambil teks dari elemen dengan class ".red" di halaman baru
+    const text = await newPage.locator(".red").textContent();
+    console.log(text);
+
+    // Memisahkan teks menggunakan karakter "@"
+    const arrayText = text.split("@");
+    console.log(arrayText);
+
+    // Memisahkan teks menggunakan karakter " " di index 1, lalu ambil index 0
+    // contoh: mentoring@rahulshettyacademy.com
+    const domain = arrayText[1].split(" ")[0];
+
+    // Menampilkan domain ke console
+    console.log(domain);
+
+    // Mengisi field username pada halaman utama dengan domain yang didapat
+    await page.locator("#username").fill(domain);
+
+    // Menampilkan isi input username
+    console.log(await page.locator("#username").textContent()); //textContent() digunakan untuk mengambil teks yang berada di dalam elemen HTML.
+    console.log(await page.locator("#username").inputValue()); //inputValue() digunakan khusus untuk mengambil nilai dari input field
+    // await page.pause();
+});
