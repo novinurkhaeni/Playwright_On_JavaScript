@@ -5,18 +5,16 @@ import { test, expect } from "@playwright/test";
 // Membuat test case dengan nama 'Browser Context Playwright Test'
 // async digunakan karena di dalam fungsi ini terdapat proses asynchronous
 // (misalnya membuka browser atau memuat halaman) yang membutuhkan waktu
-test.only ('Browser Context Playwright Test', async ({ browser }) => {
+test('@Web Browser Context-Validating Error login', async ({ browser }) => {
     // const digunakan untuk membuat variabel yang nilainya tidak akan diubah
     // browser.newContext() membuat browser context baru (lingkungan browser yang terisolasi)
-    // Biasanya digunakan untuk menyimpan session, cookies, dan plugin secara terpisah
-    // Sehingga setiap test bisa berjalan independen seperti browser baru
+    // Browser Context adalah lingkungan browser yang terisolasi
+    // sehingga cookies, session, dan storage tidak tercampur dengan test lain
     
     // await digunakan untuk menunggu proses asynchronous selesai
     // sebelum melanjutkan ke baris kode berikutnya
-    const context = await browser.newContext();
-
-    // Membuka halaman/tab baru di dalam browser context
-    // await memastikan halaman benar-benar dibuat sebelum kode berikutnya dijalankan
+    const context = await browser.newContext(); 
+    // Membuka tab atau halaman baru di dalam browser context
     const page = await context.newPage();
 
     //css, xpath
@@ -34,40 +32,60 @@ test.only ('Browser Context Playwright Test', async ({ browser }) => {
 
     // write css with traversing from parent to child
     // css -> parenttagname >> childtagname
+    //card-body a
 
     // if needs to write the locator based on text
     // text=''
+
+    // Membuat locator untuk input username menggunakan id
+    // locator digunakan untuk menemukan elemen pada halaman
     const userName = page.locator('#username');
+    // locator untuk input password menggunakan atribute type
+    const password = page.locator("[type='password']");
+    // Locator untuk tombol sign in menggunakan id
     const signIn = page.locator("#signInBtn");
+    // Locator untuk semua judul produk pada halaman shop
+    // selector ".card-body a" akan mengambil semua link judul produk
     const cardTitles =  page.locator(".card-body a");
 
+    // Event listener untuk menangkap setiap request yang dikirim browser
+    // biasanya digunakan untuk debugging network
     page.on('request',request=> console.log(request.url()));
+    // Event listener untuk melihat response dari server
+    // akan menampilkan URL dan status response (200, 404, dll)
     page.on('response',response=> console.log(response.url(), response.status()));
     // Membuka atau mengarahkan browser ke alamat URL tertentu
-    // await menunggu sampai halaman selesai dimuat
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    // Menampilkan title halaman ke console
     console.log(await page.title());
 
     //css type, fill (versi terbaru)
     await userName.fill("rahulshetty");
-    await page.locator("[type='password']").fill("Learning@830$3mK2");
+    await password.fill("Learning@830$3mK2");
     await signIn.click();
+    // textContent() berfungsi untuk mengambil seluruh teks yang berada di dalam elemen
     console.log(await page.locator("[style*='block']").textContent());
+    // expect digunakan untuk melakukan validasi dalam testing
+    // toContainText() → mengecek apakah teks pada elemen mengandung kata tertentu.
+    // 'Incorrect' → teks yang diharapkan ada pada elemen tersebut.
     await expect(page.locator("[style*='block']")).toContainText('Incorrect');
     //type - fill
     await userName.fill("");
     await userName.fill("rahulshettyacademy");
     await signIn.click();
+    // first() untuk mengambil elemen pertama dari daftar elemen yang ditemukan
     console.log(await cardTitles.first().textContent());
-   console.log(await cardTitles.nth(1).textContent());
-   const allTitles = await cardTitles.allTextContents();
+    // nth(1) Digunakan untuk mengambil elemen berdasarkan index ke-1.
+    console.log(await cardTitles.nth(1).textContent());
+    // allTextContents Mengambil semua teks dari elemen yang ditemukan, Mengembalikan hasil dalam bentuk array (daftar).
+    const allTitles = await cardTitles.allTextContents();
    
-   console.log(allTitles);
+    console.log(allTitles); 
 })
 
 //tanpa menyimpan session, cookies, dan plugin secara terpisah
 //jika hanya menjalankan test case ini, maka gunakan tets.only
-test('Page Playwright Test', async ({ page }) => {
+test.only('@Web UI Controls', async ({ page }) => {
 
     // Membuka atau mengarahkan browser ke alamat URL tertentu
     // await menunggu sampai halaman selesai dimuat
@@ -84,19 +102,22 @@ test('Page Playwright Test', async ({ page }) => {
     // Jika title tidak sesuai, maka test akan gagal
     await expect(page).toHaveTitle("Google");
 
-    // await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
-    // const userName = page.locator('#username');
-    // const signIn = page.locator("#signInBtn");
-    // const documentLink = page.locator("[href*='documents-request']");
-    // const dropdown = page.locator("select.form-control");
-    // await dropdown.selectOption("consult");
-    // await page.locator(".radiotextsty").last().click();
-    // await page.locator("#okayBtn").click();
-    // console.log(await page.locator(".radiotextsty").last().isChecked());
-    // await expect(page.locator(".radiotextsty").last()).toBeChecked();
-    // await page.locator("#terms").click();
-    // await expect( page.locator("#terms")).toBeChecked();
-    // await page.locator("#terms").uncheck();
-    // expect( await page.locator("#terms").isChecked()).toBeFalsy();
-    // await expect(documentLink).toHaveAttribute("class","blinkingText");
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    const userName = page.locator('#username');
+    const signIn = page.locator("#signInBtn");
+    const documentLink = page.locator("[href*='documents-request']");
+    const dropdown = page.locator("select.form-control");
+    await dropdown.selectOption("consult"); //memilih option dengan value "consult"
+    await page.locator(".radiotextsty").last().click(); //select radio button terakhir
+    await page.locator("#okayBtn").click();
+    //assertion
+    //verify radio button is checked or not
+    console.log(await page.locator(".radiotextsty").last().isChecked()); //Mengecek status dan mengembalikan true/false
+    await expect(page.locator(".radiotextsty").last()).toBeChecked(); //Assertion untuk memastikan elemen harus checked, rekomendasi pake ini
+    
+    await page.locator("#terms").click(); //check checkbox
+    await expect( page.locator("#terms")).toBeChecked(); //Assertion untuk memastikan elemen harus checked
+    await page.locator("#terms").uncheck(); //uncheck checkbox
+    expect( await page.locator("#terms").isChecked()).toBeFalsy(); //mengecek status harus false, kebalikannya toBeTruethy
+    await expect(documentLink).toHaveAttribute("class","blinkingText");
 })
