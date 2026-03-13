@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test('@Web Client App Login', async ({page}) => {
     const email = "anshika@gmail.com";
-    const productName = 'zara coat 3';
+    const productName = 'ZARA COAT 3';
     const products = page.locator(".card-body");
 
     // mengarahkan browser ke alamat url tertentu
@@ -26,4 +26,15 @@ test('@Web Client App Login', async ({page}) => {
     const title = await page.locator(".card-body b").allTextContents();
     // menampilkan array
     console.log(title);
+
+    //ZARA COAT
+    const count = await products.count();
+    for(let i = 0; i < count; i++){
+      if (await products.nth(i).locator("b").textContent() === productName) {
+         //add to cart
+         await products.nth(i).locator("text= Add To Cart").click();
+         break;
+      }
+    }
+    
 });
