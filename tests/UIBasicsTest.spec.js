@@ -119,7 +119,7 @@ test('@Web UI Controls', async ({ page }) => {
     await expect( page.locator("#terms")).toBeChecked(); //Assertion untuk memastikan elemen harus checked
     await page.locator("#terms").uncheck(); //uncheck checkbox
     expect( await page.locator("#terms").isChecked()).toBeFalsy(); //mengecek status harus false, kebalikannya toBeTruethy
-    await expect(documentLink).toHaveAttribute("class","blinkingText");
+    await expect(documentLink).toHaveAttribute("class","blinkingText"); //memeriksa bahwa elemen memiliki attribute class blinkingText
 });
 
 test.only('@Child Window Hadl', async ({browser}) => {
